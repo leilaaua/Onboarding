@@ -8,9 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var path: [Track] = []
+    
+    private var tracks = Track.getTrackList()
+    
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationStack(path: $path) {
+            List(tracks) { track in
+                NavigationLink(track.title, value: track)
+            }
+            .navigationTitle("Track List")
+            .navigationDestination(for: Track.self) { track in
+                DetailView(track: track)
+            }
+        }
     }
 }
 
@@ -19,3 +31,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
